@@ -1,0 +1,145 @@
+<html>
+<head>
+    <title> TODO </title>
+</head>
+<body>
+  
+    <h1> Task Manager </h1>
+    <!-- button to add the task -->
+    <input type="button" value="+" onclick="myApp.openAddTaskForm()" />
+
+    <!--- Table for adding todo Details -->
+    <table id="tblDetails" border="2px" style="display:none">
+        <tr>
+            <td>Name:</td>
+            <td>
+                <input type="text" id="txtName">
+            </td>
+        </tr>
+        <tr>
+            <td>Date: </td>
+            <td>
+                <input type="date" id="txtDate">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" id="btnOk" value="ok" onclick="myApp.displayDetails()" />
+            </td>
+            <td>
+                <input type="button" id="btnCancle" value="cancle" onclick='myApp.hideForm()'>
+            </td>
+        </tr>
+    </table>
+    <!--- Table for adding todo Details Ends -->
+
+    <!--- Table for adding todo List -->
+    <h2> Task List </h2>
+    <table id="tblDetailsForDisplay" border="2px">
+    </table>
+    <!--- Table for adding todo List Ends-->
+
+   <!-- <input type='button' value="Add data" onclick="saveStuff()">
+    <input type='button' onclick="getData()" value="Get data">-->
+
+    <script>
+    /** 
+     * @method myFunctionForHide
+     * @description This is the method for hiding the tabe details 
+     */
+    var myApp = {
+        currentTaskDetail:{
+            nam:'' ,
+            date:''
+        },
+
+        arrTask:[] 
+    };
+
+  //  var myApp = {};
+
+    myApp.hideForm = function(){
+        document.getElementById("tblDetails").setAttribute("style", "display:none");
+    }
+
+    myApp.openAddTaskForm = function(){
+        document.getElementById("tblDetails").setAttribute("style", "display:block");
+     //   myApp.getData();
+    }
+
+    myApp.displayDetails  = function(){
+    	 myApp.currentTaskDetail.nam = document.getElementById('txtName').value;
+         myApp.currentTaskDetail.date = document.getElementById('txtDate').value;
+        var tableRow = 
+        '<tr id="myRow">'+
+            '<td>' +
+            	'<b>Name is </b>'+myApp.currentTaskDetail.nam+'<br>'+
+            	'<b>Date is </b>'+myApp.currentTaskDetail.date+
+            '</td>'+
+            '<td>'+
+                '<input type="checkbox" onclick="myApp.lineThruogh(this)">'+
+            '</td>'+
+            '<td>'+
+               ' <input type="button" value="delete"  onclick="myApp.del(this)">'+
+            '</td>'+
+        '</tr>';
+         // for add multiple tr
+        var innerHTML = document.getElementById("tblDetailsForDisplay").innerHTML;
+        document.getElementById("tblDetailsForDisplay").innerHTML = innerHTML + tableRow;   
+        myApp.saveStuff(); 
+
+
+    }
+
+    myApp.del = function(btn){
+ //  var row = document.getElementById("tblDetailsForDisplay").removeChild( document.getElementById("myRow"));
+    //    row.remove();
+
+    var i=btn.parentNode.parentNode.rowIndex;
+    document.getElementById('tblDetailsForDisplay').deleteRow(i);
+
+    }
+
+    myApp.lineThruogh = function(chk){
+    	//debugger;
+        if (chk.checked == 1) {
+
+           var ele = chk.parentNode.parentNode.children[0];
+			ele.setAttribute("style","text-decoration:line-through");
+
+        } else {
+           	var ele = chk.parentNode.parentNode.children[0];
+	       ele.setAttribute("style","text-decoration:none");
+        }
+    }
+    /* 
+        @method:saveStuff for storing the data in browser 
+    */
+    myApp.saveStuff = function() {
+       /* if(typeof(Storage) !== "undefined") { 
+            localStorage.setItem('Name' , myApp.currentTaskDetail.nam); // for one record
+            localStorage.setItem('Date' , myApp.currentTaskDetail.date);
+        }*/
+            myApp.arrTask.push({
+                    "name" : myApp.currentTaskDetail.nam ,
+                    "date" : myApp.currentTaskDetail.date,
+            });
+            localStorage.setItem("ArrayStore",JSON.stringify(myApp.arrTask));
+
+    }
+    /** 
+     * @method getData
+     */
+     myApp.getData = function(){
+       /* alert(localStorage.getItem('Name' , myApp.currentTaskDetail.nam));
+        alert(localStorage.getItem('Date' , myApp.currentTaskDetail.date));*/
+        var myApp.arrTask  = JSON.parse(localStorage.getItem('aa',myApp.arrTask);
+        for(var i = 0 ; i <store.lenght ; i++) {
+            var tbl = ''
+        }
+
+     }
+
+    </script>
+</body>
+</html>
